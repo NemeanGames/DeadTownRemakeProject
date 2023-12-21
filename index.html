@@ -99,6 +99,35 @@
     </div>
 
     <script>
+      menuStructure = {
+        "mainMenu": {
+          "playButton": "playMenu"
+        },
+        "playMenu": {
+          "selectGameModeButton": "gameModeMenu",
+          "armoryButton": "armoryMenu",
+          "backFromPlayMenuButton": "mainMenu"
+        },
+        "gameModeMenu": {
+          "backFromGameModeMenuButton": "playMenu"
+        },
+        "armoryMenu": {
+          "equipmentButton": "equipmentMenu",
+          "backFromArmoryMenuButton": "playMenu"
+        },
+        "equipmentMenu": {
+          "backFromEquipmentMenuButton": "armoryMenu"
+        }
+      }
+      for (var menu in menuStructure) {
+        for (var button in menuStructure[menu]) {
+          console.log(button, "makes ", menu, "invisible and ", menuStructure[menu][button], "visible");
+          document.getElementById(button).addEventListener("click", ()=>{
+            console.log("clicked", button, "in", menu, "making", menuStructure[menu][button], "visible")
+            toggleVisibility(menu, menuStructure[menu][button]);
+          });
+        }
+      }
       document
         .getElementById("playButton")
         .addEventListener("click", function () {
