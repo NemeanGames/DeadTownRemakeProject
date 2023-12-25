@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Survival Game</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       .hidden {
         display: none;
       }
+
       .menu-button {
         background-color: transparent;
         border: 2px dashed white;
@@ -23,41 +22,35 @@
         cursor: pointer;
         transition: background-color 0.3s;
       }
+
       .menu-button:hover {
-        background-color: #374151; /* Gray-700 */
+        background-color: #374151;
+        /* Gray-700 */
       }
     </style>
   </head>
-  <body
-    class="bg-gray-800 text-white font-roboto flex flex-col items-center justify-center w-full h-screen"
-  >
-    <div
-      class="flex items-center gap-2 border-2 border-dashed border-white rounded-full p-2 mb-5"
-    >
-      <div id="premiumCurrency" class="bg-gray-700 p-2 rounded-md">0</div>
-      <button
-        class="border-none bg-transparent text-white"
-        onclick="window.location.href='PremiumCurrencyShopURL'"
-      >
+
+  <body class="bg-gray-800 text-white font-roboto flex flex-col items-center justify-center w-full h-screen">
+    <div id="top" class="flex items-center gap-2 border-2 border-dashed border-white rounded-full p-2 mb-5">
+      <div id="premiumCurrency" class="bg-gray-700 p-2 rounded-md">
+        0
+      </div>
+      <button id="premiumCurrencyShopButton" class="border-none bg-transparent text-white">
         +
       </button>
     </div>
 
     <div id="mainMenu" class="flex flex-col items-center">
-      <button id="playButton" class="menu-button">Play</button>
-      <button class="menu-button" onclick="window.location.href='ShopMenuURL'">
+      <button id="playButton" class="menu-button">
+        Play
+      </button>
+      <button id="shopButton" class="menu-button">
         Shop
       </button>
-      <button
-        class="menu-button"
-        onclick="window.location.href='https://discord.gg/QfK9VHHRxD'"
-      >
+      <button id="discordButton" class="menu-button">
         Discord
       </button>
-      <button
-        class="menu-button"
-        onclick="window.location.href='SettingsMenuURL'"
-      >
+      <button id="settingsButton" class="menu-button">
         Settings
       </button>
     </div>
@@ -67,137 +60,163 @@
       <button id="selectGameModeButton" class="menu-button">
         Select Game Mode
       </button>
-      <button id="armoryButton" class="menu-button">Armory</button>
-      <button id="missionsButton" class="menu-button">Missions</button>
-      <!-- Added Missions Tab button -->
-      <button id="backFromPlayMenuButton" class="menu-button">Back</button>
+      <button id="armoryButton" class="menu-button">
+        Armory
+      </button>
+      <button id="missionsButton" class="menu-button">
+        Missions
+      </button>
+      <button id="backFromPlayMenuButton" class="menu-button">
+        Back
+      </button>
     </div>
 
     <!-- Submenu for when Select Game Mode is clicked -->
     <div id="gameModeMenu" class="hidden flex flex-col items-center">
-      <button class="menu-button" onclick="startSurvivalMode()">
+      <button id="survivalButton" class="menu-button">
         Survival
       </button>
-      <button class="menu-button" onclick="startDefenseMode()">Defense</button>
-      <button id="backFromGameModeMenuButton" class="menu-button">Back</button>
+      <button id="defenseButton" class="menu-button">
+        Defense
+      </button>
+      <button id="backFromGameModeMenuButton" class="menu-button">
+        Back
+      </button>
     </div>
 
     <!-- Submenu for when Armory is clicked -->
     <div id="armoryMenu" class="hidden flex flex-col items-center">
-      <button class="menu-button">Operator</button>
-      <button class="menu-button">Weapons</button>
-      <button class="menu-button">Garage</button>
-      <button id="equipmentButton" class="menu-button">Equipment</button>
-      <!-- Added button for Equipment -->
-      <button id="backFromArmoryMenuButton" class="menu-button">Back</button>
+      <button id="operatorButton" class="menu-button">
+        Operator
+      </button>
+      <button id="weaponsButton" class="menu-button">
+        Weapons
+      </button>
+      <button id="garageButton" class="menu-button">
+        Garage
+      </button>
+      <button id="equipmentButton" class="menu-button">
+        Equipment
+      </button>
+      <button id="backFromArmoryMenuButton" class="menu-button">
+        Back
+      </button>
     </div>
 
-    <!-- New Submenu for Equipment -->
+    <!-- Submenu for when Equipment is clicked -->
     <div id="equipmentMenu" class="hidden flex flex-col items-center">
-      <!-- Add your Equipment content here -->
-      <button id="backFromEquipmentMenuButton" class="menu-button">Back</button>
+      <button id="backFromEquipmentMenuButton" class="menu-button">
+        Back
+      </button>
     </div>
 
     <script>
-      menuStructure = {
-        "mainMenu": {
-          "playButton": "playMenu"
-        },
-        "playMenu": {
-          "selectGameModeButton": "gameModeMenu",
-          "armoryButton": "armoryMenu",
-          "backFromPlayMenuButton": "mainMenu"
-        },
-        "gameModeMenu": {
-          "backFromGameModeMenuButton": "playMenu"
-        },
-        "armoryMenu": {
-          "equipmentButton": "equipmentMenu",
-          "backFromArmoryMenuButton": "playMenu"
-        },
-        "equipmentMenu": {
-          "backFromEquipmentMenuButton": "armoryMenu"
-        }
-      }
-      for (var menu in menuStructure) {
-        for (var button in menuStructure[menu]) {
-          console.log(button, "makes ", menu, "invisible and ", menuStructure[menu][button], "visible");
-          document.getElementById(button).addEventListener("click", ()=>{
-            console.log("clicked", button, "in", menu, "making", menuStructure[menu][button], "visible")
-            toggleVisibility(menu, menuStructure[menu][button]);
-          });
-        }
-      }
-      document
-        .getElementById("playButton")
-        .addEventListener("click", function () {
-          toggleVisibility("mainMenu", "playMenu");
-        });
-
-      document
-        .getElementById("selectGameModeButton")
-        .addEventListener("click", function () {
-          toggleVisibility("playMenu", "gameModeMenu");
-        });
-
-      document
-        .getElementById("armoryButton")
-        .addEventListener("click", function () {
-          toggleVisibility("playMenu", "armoryMenu");
-        });
-
-      document
-        .getElementById("missionsButton")
-        .addEventListener("click", function () {
-          // Add your logic here for handling the Missions Tab.
-          alert("Opening Missions Tab..."); // You can replace this with your specific functionality.
-        });
-
-      document
-        .getElementById("backFromPlayMenuButton")
-        .addEventListener("click", function () {
-          toggleVisibility("playMenu", "mainMenu");
-        });
-
-      document
-        .getElementById("backFromGameModeMenuButton")
-        .addEventListener("click", function () {
-          toggleVisibility("gameModeMenu", "playMenu");
-        });
-
-      document
-        .getElementById("backFromArmoryMenuButton")
-        .addEventListener("click", function () {
-          toggleVisibility("armoryMenu", "playMenu");
-        });
-
-      // Add event listeners for Equipment button and back button
-      document
-        .getElementById("equipmentButton")
-        .addEventListener("click", function () {
-          toggleVisibility("armoryMenu", "equipmentMenu");
-        });
-
-      document
-        .getElementById("backFromEquipmentMenuButton")
-        .addEventListener("click", function () {
-          toggleVisibility("equipmentMenu", "armoryMenu");
-        });
-
       function toggleVisibility(hideId, showId) {
         document.getElementById(hideId).classList.add("hidden");
         document.getElementById(showId).classList.remove("hidden");
       }
-
-      function startSurvivalMode() {
-        // Logic for starting the game in Survival Mode
-        alert("Starting Survival Mode...");
+      const menuStructure = {
+        "top": {
+          "premiumCurrencyShopButton": [
+            {"type":"alert",
+            "target":"Opening Premium Currency Shop..."}
+          ]
+        },
+        "mainMenu": {
+          "playButton": [
+            {"type":"link",
+            "target":"playMenu"}
+          ],
+          "shopButton": [
+            {"type":"alert",
+            "target":"Opening Shop Tab..."}
+          ],
+          "discordButton": [
+            {"type":"url",
+            "target":"https://discord.gg/QfK9VHHRxD"}
+          ],
+          "settingsButton": [
+            {"type":"alert",
+            "target":"Opening Settings Tab..."}
+          ]
+        },
+        "playMenu": {
+          "backFromPlayMenuButton": [
+            {"type":"link",
+            "target":"mainMenu"}
+          ],
+          "selectGameModeButton": [
+            {"type":"link",
+            "target":"gameModeMenu"}
+          ],
+          "armoryButton": [
+            {"type":"link",
+            "target":"armoryMenu"}
+          ],
+          "missionsButton": [
+            {"type":"alert",
+            "target":"Opening Missions Tab..."}
+          ]
+        },
+        "gameModeMenu": {
+          "backFromGameModeMenuButton": [
+            {"type":"link",
+            "target":"playMenu"}
+          ],
+          "survivalButton": [
+            {"type":"alert",
+            "target":"Starting Survival Mode..."}
+          ],
+          "defenseButton": [
+            {"type":"alert",
+            "target":"Starting Defense Mode..."}
+          ]
+        },
+        "armoryMenu": {
+          "backFromArmoryMenuButton": [
+            {"type":"link",
+            "target":"playMenu"}
+          ],
+          "equipmentButton": [
+            {"type":"link",
+            "target":"Opening Missions Tab..."}
+          ],
+          "operatorButton": [
+            {"type":"alert",
+            "target":"Opening Operator Tab..."}
+          ],
+          "weaponsButton": [
+            {"type":"alert",
+            "target":"Opening Weapons Tab..."}
+          ],
+          "garageButton": [
+            {"type":"alert",
+            "target":"Opening Garage Tab..."}
+          ],
+        },
+        "equipmentMenu": {
+          "backFromEquipmentMenuButton": [
+            {"type":"link",
+            "target":"armoryMenu"}
+          ],
+        }
       }
-
-      function startDefenseMode() {
-        // Logic for starting the game in Defense Mode
-        alert("Starting Defense Mode...");
+      for (let menu in menuStructure) {
+        let menuChoices = menuStructure[menu];
+        for (let button in menuChoices) {
+          let actions = menuChoices[button];
+          for (let action of actions) {
+            if (action["type"] == "link") {
+              document.getElementById(button).addEventListener("click", ()=>{toggleVisibility(menu, action.target)});
+            } else if (action["type"] == "alert") {
+              document.getElementById(button).addEventListener("click", ()=>{alert(action.target)});
+            } else if (action["type"] == "url") {
+              document.getElementById(button).addEventListener("click", ()=>{window.location.href=action.target});
+            }
+          }
+        }
       }
     </script>
   </body>
+
 </html>
