@@ -181,7 +181,7 @@
             ],
             "equipmentButton": [
               {"type":"link",
-              "target":"Opening Missions Tab..."}
+              "target":"equipmentMenu"}
             ],
             "operatorButton": [
               {"type":"alert",
@@ -207,15 +207,15 @@
           let menuChoices = menuStructure[menu];
           for (let button in menuChoices) {
             let actions = menuChoices[button];
-            for (let action of actions) {
-              if (action["type"] == "link") {
-                document.getElementById(button).addEventListener("click", ()=>{toggleVisibility(menu, action.target)});
-              } else if (action["type"] == "alert") {
-                document.getElementById(button).addEventListener("click", ()=>{alert(action.target)});
-              } else if (action["type"] == "url") {
-                document.getElementById(button).addEventListener("click", ()=>{window.location.href=action.target});
+            $.each(actions, function(index, value) {
+              if (value["type"] == "link") {
+                document.getElementById(button).addEventListener("click", ()=>{toggleVisibility(menu, value["target"])});
+              } else if (value["type"] == "alert") {
+                document.getElementById(button).addEventListener("click", ()=>{alert(value["target"])});
+              } else if (value["type"] == "url") {
+                document.getElementById(button).addEventListener("click", ()=>{window.location.href=value["target"]});
               }
-            }
+            });
           }
         }
       });
